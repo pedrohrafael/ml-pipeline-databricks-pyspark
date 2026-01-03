@@ -1,6 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.types import *
-from src.train import train_model
+from california_housing_pipeline.train import train_model
 
 
 def test_train_pipeline_smoke():

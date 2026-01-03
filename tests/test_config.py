@@ -1,4 +1,4 @@
-from src import config
+from california_housing_pipeline import config
 
 
 def test_environment_flag():

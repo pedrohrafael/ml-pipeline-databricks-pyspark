@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from src.ingest import get_schema
+from california_housing_pipeline.ingest import get_schema
 
 
 def test_schema_columns():

@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from src.features import build_feature_pipeline
+from california_housing_pipeline.features import build_feature_pipeline
 
 
 def test_feature_pipeline_creation():
