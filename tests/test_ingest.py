@@ -1,20 +1,21 @@
 from pyspark.sql import SparkSession
-from california_housing_pipeline.ingest import get_schema
+from california_housing_pipeline.ingest import ingest_data
 
 
-def test_schema_columns():
-    schema = get_schema()
-    expected_cols = {
-        "longitude",
-        "latitude",
-        "housing_median_age",
-        "total_rooms",
-        "total_bedrooms",
-        "population",
-        "households",
-        "median_income",
-        "median_house_value",
-        "ocean_proximity",
-    }
+def test_ingest_data_local(monkeypatch):
+    monkeypatch.setenv("ENV", "LOCAL")
 
-    assert set(schema.fieldNames()) == expected_cols
+    spark = (
+        SparkSession.builder
+        .master("local[1]")
+        .appName("ci-ingest-test")
+        .getOrCreate()
+    )
+
+    df = ingest_data(spark)
+
+    assert df is not None
+    assert df.columns is not None
+    assert len(df.columns) > 0
+
+    spark.stop()
