@@ -1,18 +1,21 @@
 from pyspark.sql import SparkSession
-from california_housing_pipeline.features import build_feature_pipeline
+from california_housing_pipeline.ingest import ingest_data
+from california_housing_pipeline.config import ENV
 
 
-def test_feature_pipeline_creation():
+def test_ingest_local(monkeypatch):
+    monkeypatch.setenv("ENV", "LOCAL")
+
     spark = (
         SparkSession.builder
         .master("local[1]")
-        .appName("ci-feature-test")
+        .appName("ci-ingest-test")
         .getOrCreate()
     )
 
-    pipeline = build_feature_pipeline()
+    df = ingest_data(spark)
 
-    assert pipeline is not None
-    assert len(pipeline.getStages()) > 0
+    assert df is not None
+    assert df.count() > 0
 
     spark.stop()

@@ -49,7 +49,7 @@ def main():
     # =========================
     with mlflow.start_run():
         # Ingestão
-        df = ingest_data(spark, str(DATA_RAW_PATH))
+        df = ingest_data(spark)
 
         # Split (antes do pipeline)
         train_df, test_df = df.randomSplit(

@@ -1,31 +1,20 @@
-from pyspark.sql import DataFrame
-from pyspark.sql.types import (
-    StructType, StructField, DoubleType, StringType
-)
+from pyspark.sql import SparkSession, DataFrame
+from california_housing_pipeline.config import ENV, DATA_RAW_PATH, DATABRICKS_TABLE
 
-def get_schema():
-    return StructType([
-        StructField("longitude", DoubleType(), True),
-        StructField("latitude", DoubleType(), True),
-        StructField("housing_median_age", DoubleType(), True),
-        StructField("total_rooms", DoubleType(), True),
-        StructField("total_bedrooms", DoubleType(), True),
-        StructField("population", DoubleType(), True),
-        StructField("households", DoubleType(), True),
-        StructField("median_income", DoubleType(), True),
-        StructField("median_house_value", DoubleType(), True),
-        StructField("ocean_proximity", StringType(), True),
-    ])
 
-def ingest_data(spark, path: str) -> DataFrame:
-    df = (
-        spark.read
-        .schema(get_schema())
-        .option("header", True)
-        .csv(path)
-    )
-
-    if df.count() == 0:
-        raise ValueError("Dataset vazio após ingestão")
-
-    return df
+def ingest_data(spark: SparkSession) -> DataFrame:
+    """
+    Ingestão de dados a partir de tabela Spark gerenciada.
+    
+    Exemplo de table_name:
+        workspace.default.housing_raw
+    """
+    if ENV == "DATABRICKS":
+        return spark.table(DATABRICKS_TABLE)
+    else:
+        return (
+            spark.read
+            .option("header", True)
+            .option("inferSchema", True)
+            .csv(str(DATA_RAW_PATH))
+        )

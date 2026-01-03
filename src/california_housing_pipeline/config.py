@@ -6,14 +6,17 @@ def is_databricks() -> bool:
 
 ENV = "DATABRICKS" if is_databricks() else "LOCAL"
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = Path.cwd()
+
+# Nome da tabela no Databricks
+DATABRICKS_TABLE = "workspace.default.housing"
 
 if ENV == "LOCAL":
     DATA_RAW_PATH = PROJECT_ROOT / "data" / "raw" / "housing.csv"
     MLFLOW_TRACKING_URI = f"sqlite:///{PROJECT_ROOT / 'mlflow.db'}"
     MLFLOW_ARTIFACT_URI = f"file:///{PROJECT_ROOT / 'mlflow_artifacts'}"
 else:
-    DATA_RAW_PATH = "dbfs:/FileStore/data/raw/housing.csv"
+    DATA_RAW_PATH = "workspace.default.housing_raw"
     MLFLOW_TRACKING_URI = None
     MLFLOW_ARTIFACT_URI = None
 

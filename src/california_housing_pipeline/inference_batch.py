@@ -66,10 +66,9 @@ def main():
         else OUTPUT_PATH_LOCAL
     )
 
-    preds.select(
-        "median_house_value",
-        "prediction"
-    ).write.mode("overwrite").parquet(output_path)
+    preds.write.mode("overwrite").saveAsTable(
+    "workspace.default.housing_predictions"
+    )
 
     print(f"Predições salvas em: {output_path}")
 
