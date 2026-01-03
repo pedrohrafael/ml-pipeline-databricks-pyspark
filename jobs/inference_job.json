@@ -1,0 +1,11 @@
+{
+  "name": "california-housing-batch-inference",
+  "tasks": [
+    {
+      "task_key": "batch-inference",
+      "spark_python_task": {
+        "python_file": "src/inference_batch.py"
+      }
+    }
+  ]
+}
