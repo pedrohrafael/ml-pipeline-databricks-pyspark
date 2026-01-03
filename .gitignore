@@ -1,3 +1,11 @@
+# mlflow# MLflow runs and artifacts
+mlruns/
+mlflow.db
+mlflow_artifacts/
+data/predictions/
+*.pyc
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
