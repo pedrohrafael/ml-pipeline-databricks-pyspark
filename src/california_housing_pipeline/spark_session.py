@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from src.config import (
+from california_housing_pipeline.config import (
     ENV,
     SPARK_APP_NAME,
     SPARK_SQL_SHUFFLE_PARTITIONS

@@ -1,7 +1,7 @@
 from pyspark.sql import DataFrame
 from pyspark.ml.regression import RandomForestRegressor
 from pyspark.ml import Pipeline
-from src.features import build_feature_pipeline
+from california_housing_pipeline.features import build_feature_pipeline
 
 def train_model(train_df: DataFrame):
     feature_pipeline = build_feature_pipeline()

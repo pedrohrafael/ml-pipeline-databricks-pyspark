@@ -1,0 +1,25 @@
+bundle:
+  name: california-housing-bundle
+
+artifacts:
+  pipeline_wheel:
+    type: whl
+    path: .
+
+resources:
+  jobs:
+    california_housing_train:
+      name: california-housing-train
+      tasks:
+        - task_key: train_model
+          python_wheel_task:
+            package_name: california_housing_pipeline
+            entry_point: main
+
+    california_housing_inference:
+      name: california-housing-batch-inference
+      tasks:
+        - task_key: batch_inference
+          python_wheel_task:
+            package_name: california_housing_pipeline
+            entry_point: inference_batch

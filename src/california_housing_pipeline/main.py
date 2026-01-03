@@ -2,11 +2,11 @@ import mlflow
 import mlflow.spark
 from mlflow.tracking import MlflowClient
 
-from src.spark_session import get_spark_session
-from src.ingest import ingest_data
-from src.train import train_model
-from src.evaluate import evaluate_model
-from src.config import (
+from california_housing_pipeline.spark_session import get_spark_session
+from california_housing_pipeline.ingest import ingest_data
+from california_housing_pipeline.train import train_model
+from california_housing_pipeline.evaluate import evaluate_model
+from california_housing_pipeline.config import (
     DATA_RAW_PATH,
     RANDOM_SEED,
     TRAIN_TEST_SPLIT,

@@ -2,9 +2,9 @@ import mlflow
 import mlflow.spark
 from pyspark.sql import DataFrame
 
-from src.spark_session import get_spark_session
-from src.ingest import ingest_data
-from src.config import (
+from california_housing_pipeline.spark_session import get_spark_session
+from california_housing_pipeline.ingest import ingest_data
+from california_housing_pipeline.config import (
     DATA_RAW_PATH,
     MLFLOW_TRACKING_URI,
     ENV
@@ -48,7 +48,7 @@ def load_model():
     return mlflow.spark.load_model(model_uri)
 
 
-def run_batch_inference():
+def main():
     spark = get_spark_session()
 
     if MLFLOW_TRACKING_URI:
@@ -77,4 +77,4 @@ def run_batch_inference():
 
 
 if __name__ == "__main__":
-    run_batch_inference()
+    main()

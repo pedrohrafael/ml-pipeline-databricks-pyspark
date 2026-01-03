@@ -1,12 +1,16 @@
-[tool.pytest.ini_options]
-minversion = "6.0"
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
 
-[tool.black]
-line-length = 88
+[project]
+name = "california-housing-pipeline"
+version = "0.1.0"
+dependencies = [
+  "mlflow",
+  "pandas",
+  "scikit-learn",
+  "pyarrow"
+]
 
-[tool.isort]
-profile = "black"
-
-[tool.ruff]
-select = ["E", "F"]
-ignore = ["E501"]
+[tool.setuptools.packages.find]
+where = ["src"]
