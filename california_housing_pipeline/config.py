@@ -11,14 +11,16 @@ PROJECT_ROOT = Path.cwd()
 # Nome da tabela no Databricks
 DATABRICKS_TABLE = "workspace.default.housing"
 
-if ENV == "LOCAL":
+if ENV == "LOCAL":    
     DATA_RAW_PATH = PROJECT_ROOT / "data" / "raw" / "housing.csv"
     MLFLOW_TRACKING_URI = f"sqlite:///{PROJECT_ROOT / 'mlflow.db'}"
     MLFLOW_ARTIFACT_URI = f"file:///{PROJECT_ROOT / 'mlflow_artifacts'}"
+    EXPERIMENT_NAME = "california-housing-regression"
 else:
     DATA_RAW_PATH = "workspace.default.housing_raw"
     MLFLOW_TRACKING_URI = None
     MLFLOW_ARTIFACT_URI = None
+    EXPERIMENT_NAME = "/Users/{user}/california-housing-regression"
 
 RANDOM_SEED = 42
 TRAIN_TEST_SPLIT = 0.8

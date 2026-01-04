@@ -1,3 +1,4 @@
+import os
 import mlflow
 import mlflow.spark
 from mlflow.tracking import MlflowClient
@@ -12,10 +13,20 @@ from california_housing_pipeline.config import (
     TRAIN_TEST_SPLIT,
     MLFLOW_TRACKING_URI,
     MLFLOW_ARTIFACT_URI,
+    EXPERIMENT_NAME,
     ENV
 )
 
-EXPERIMENT_NAME = "california-housing-regression"
+def get_experiment_name():
+    if ENV == "DATABRICKS":
+        user = os.environ.get("DATABRICKS_USERNAME")
+        if not user:
+            user = "shared"
+        return EXPERIMENT_NAME.format(user=user)
+    else:
+        return EXPERIMENT_NAME
+
+
 MODEL_NAME = "california_housing_rf"
 
 
