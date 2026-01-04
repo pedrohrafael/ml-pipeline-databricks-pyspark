@@ -1,0 +1,18 @@
+resources:
+  jobs:
+    california_housing_inference:
+      name: california-housing-batch-inference
+
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: "4"
+            dependencies:
+              - ../dist/*.whl
+
+      tasks:
+        - task_key: batch_inference
+          environment_key: default
+          python_wheel_task:
+            package_name: california_housing_pipeline
+            entry_point: inference_batch

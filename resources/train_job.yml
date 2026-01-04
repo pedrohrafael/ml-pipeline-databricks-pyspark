@@ -1,0 +1,18 @@
+resources:
+  jobs:
+    california_housing_train:
+      name: california-housing-train
+
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: "4"
+            dependencies:
+              - ../dist/*.whl
+
+      tasks:
+        - task_key: train_model
+          environment_key: default
+          python_wheel_task:
+            package_name: california_housing_pipeline
+            entry_point: main

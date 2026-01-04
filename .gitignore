@@ -4,6 +4,7 @@ mlflow.db
 mlflow_artifacts/
 data/predictions/
 *.pyc
+.vscode
 
 
 # Byte-compiled / optimized / DLL files

@@ -9,7 +9,7 @@ def get_spark_session() -> SparkSession:
     builder = SparkSession.builder.appName(SPARK_APP_NAME)
 
     if ENV == "LOCAL":
-        builder = builder.master("local[*]")
+        builder = builder.master("local[*]").serverless( True )
 
     spark = (
         builder
@@ -18,5 +18,7 @@ def get_spark_session() -> SparkSession:
         .getOrCreate()
     )
 
-    spark.sparkContext.setLogLevel("WARN")
+    if ENV != "DATABRICKS":
+        spark.sparkContext.setLogLevel("WARN")
+
     return spark
