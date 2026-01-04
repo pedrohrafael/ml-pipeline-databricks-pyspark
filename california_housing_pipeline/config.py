@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from databricks.sdk import WorkspaceClient
 
 def is_databricks() -> bool:
     return "DATABRICKS_RUNTIME_VERSION" in os.environ
@@ -20,7 +21,11 @@ else:
     DATA_RAW_PATH = "workspace.default.housing_raw"
     MLFLOW_TRACKING_URI = None
     MLFLOW_ARTIFACT_URI = None
-    EXPERIMENT_NAME = "/Users/{user}/california-housing-regression"
+
+    w = WorkspaceClient()
+    me = w.current_user.me()
+    user_name = me.user_name
+    EXPERIMENT_NAME = f"/Users/{user_name}/california-housing-regression"
 
 RANDOM_SEED = 42
 TRAIN_TEST_SPLIT = 0.8

@@ -17,16 +17,6 @@ from california_housing_pipeline.config import (
     ENV
 )
 
-def get_experiment_name():
-    if ENV == "DATABRICKS":
-        user = os.environ.get("DATABRICKS_USERNAME")
-        if not user:
-            user = "shared"
-        return EXPERIMENT_NAME.format(user=user)
-    else:
-        return EXPERIMENT_NAME
-
-
 MODEL_NAME = "california_housing_rf"
 
 
@@ -54,6 +44,7 @@ def main():
     else:
         # Databricks: tracking e artifact store são gerenciados
         mlflow.set_experiment(EXPERIMENT_NAME)
+        os.environ["MLFLOW_DFS_TMP"] = "/Volumes/workspace/default/mlflow_tmp"
 
     # =========================
     # Pipeline execution
