@@ -1,6 +1,7 @@
 import os
 import mlflow
 import mlflow.spark
+from mlflow.models import infer_signature
 from mlflow.tracking import MlflowClient
 
 from california_housing_pipeline.spark_session import get_spark_session
@@ -8,7 +9,6 @@ from california_housing_pipeline.ingest import ingest_data
 from california_housing_pipeline.train import train_model
 from california_housing_pipeline.evaluate import evaluate_model
 from california_housing_pipeline.config import (
-    DATA_RAW_PATH,
     RANDOM_SEED,
     TRAIN_TEST_SPLIT,
     MLFLOW_TRACKING_URI,
@@ -17,7 +17,7 @@ from california_housing_pipeline.config import (
     ENV
 )
 
-MODEL_NAME = "california_housing_rf"
+MODEL_NAME = "workspace.default.california_housing"
 
 
 def main():
@@ -72,24 +72,40 @@ def main():
         # Registro do modelo
         # =========================
         if ENV == "DATABRICKS":
+
+            input_data_sample = train_df.limit(10)
+            signature = infer_signature(input_data_sample, model.transform(input_data_sample))
+
             mlflow.spark.log_model(
                 spark_model=model,
                 artifact_path="model",
+                signature=signature,
                 registered_model_name=MODEL_NAME
             )
 
-            # Promoção automática para Staging
-            versions = client.get_latest_versions(
-                MODEL_NAME, stages=["None"]
+            client = MlflowClient()
+
+            run_id = mlflow.active_run().info.run_id
+
+            model_versions = client.search_model_versions(
+                filter_string=f"name = '{MODEL_NAME}'"
             )
 
-            if versions:
-                client.transition_model_version_stage(
-                    name=MODEL_NAME,
-                    version=versions[0].version,
-                    stage="Staging",
-                    archive_existing_versions=True
-                )
+            model_version = None
+            
+            for mv in model_versions:
+                if mv.run_id == run_id:
+                    model_version = mv.version
+                    break
+
+            if model_version is None:
+                raise RuntimeError("Could not find model version for current run")
+            
+            client.set_registered_model_alias(
+                name=MODEL_NAME,
+                alias="champion",
+                version=model_version
+            )
 
         else:
             # LOCAL: loga apenas o artefato (sem Registry)

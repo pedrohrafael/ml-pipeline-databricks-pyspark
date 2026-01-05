@@ -1,13 +1,10 @@
 from pyspark.ml import Pipeline
 from pyspark.ml.feature import (
-    StringIndexer,
-    OneHotEncoder,
     VectorAssembler,
     Imputer
 )
 
-CATEGORICAL_COLS = ["ocean_proximity"]
-
+# Apenas colunas numéricas
 NUMERIC_COLS = [
     "longitude",
     "latitude",
@@ -32,27 +29,14 @@ def build_feature_pipeline():
 
     imputed_cols = [f"{c}_imputed" for c in NUMERIC_COLS]
 
-    # 2. Indexação categórica
-    indexer = StringIndexer(
-        inputCol="ocean_proximity",
-        outputCol="ocean_proximity_idx",
-        handleInvalid="keep"
-    )
-
-    # 3. One-hot encoding
-    encoder = OneHotEncoder(
-        inputCol="ocean_proximity_idx",
-        outputCol="ocean_proximity_ohe"
-    )
-
-    # 4. VectorAssembler FINAL (sem NULLs)
+    # 2. VectorAssembler final
     assembler = VectorAssembler(
-        inputCols=imputed_cols + ["ocean_proximity_ohe"],
+        inputCols=imputed_cols,
         outputCol="features"
     )
 
     pipeline = Pipeline(
-        stages=[imputer, indexer, encoder, assembler]
+        stages=[imputer, assembler]
     )
 
     return pipeline
