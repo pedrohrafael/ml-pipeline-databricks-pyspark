@@ -1,6 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.types import *
-from california_housing_pipeline.train import train_model
+from california_housing_pipeline.batch.train import train_model
 from california_housing_pipeline.features import build_feature_pipeline
 
 

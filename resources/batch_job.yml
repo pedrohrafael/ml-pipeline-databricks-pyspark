@@ -1,0 +1,18 @@
+resources:
+  jobs:
+    california_housing_batch:
+      name: california-housing-batch
+
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: "default"
+            dependencies:
+              - ../dist/*.whl
+
+      tasks:
+        - task_key: run_batch_pipeline
+          environment_key: default
+          python_wheel_task:
+            package_name: batch
+            entry_point: job_entrypoint

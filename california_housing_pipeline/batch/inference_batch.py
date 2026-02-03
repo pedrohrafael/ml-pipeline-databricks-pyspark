@@ -2,9 +2,9 @@ import mlflow
 import mlflow.spark
 from pyspark.sql import DataFrame
 
-from california_housing_pipeline.spark_session import get_spark_session
-from california_housing_pipeline.ingest import ingest_data
-from california_housing_pipeline.config import (
+from california_housing_pipeline.batch.spark_session import get_spark_session
+from california_housing_pipeline.batch.ingest import ingest_data
+from california_housing_pipeline.batch.config import (
     DATA_RAW_PATH,
     MLFLOW_TRACKING_URI,
     ENV

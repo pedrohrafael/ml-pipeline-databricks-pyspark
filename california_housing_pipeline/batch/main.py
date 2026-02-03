@@ -4,11 +4,11 @@ import mlflow.spark
 from mlflow.models import infer_signature
 from mlflow.tracking import MlflowClient
 
-from california_housing_pipeline.spark_session import get_spark_session
-from california_housing_pipeline.ingest import ingest_data
-from california_housing_pipeline.train import train_model
-from california_housing_pipeline.evaluate import evaluate_model
-from california_housing_pipeline.config import (
+from california_housing_pipeline.batch.spark_session import get_spark_session
+from california_housing_pipeline.batch.ingest import ingest_data
+from california_housing_pipeline.batch.train import train_model
+from california_housing_pipeline.batch.evaluate import evaluate_model
+from california_housing_pipeline.batch.config import (
     RANDOM_SEED,
     TRAIN_TEST_SPLIT,
     MLFLOW_TRACKING_URI,

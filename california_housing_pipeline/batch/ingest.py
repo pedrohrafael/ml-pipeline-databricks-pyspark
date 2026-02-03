@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession, DataFrame
-from california_housing_pipeline.config import ENV, DATA_RAW_PATH, DATABRICKS_TABLE
+from california_housing_pipeline.batch.config import ENV, DATA_RAW_PATH, DATABRICKS_TABLE
 
 
 def ingest_data(spark: SparkSession) -> DataFrame:

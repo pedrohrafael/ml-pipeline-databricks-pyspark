@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from california_housing_pipeline.ingest import ingest_data
+from california_housing_pipeline.batch.ingest import ingest_data
 from california_housing_pipeline.config import ENV
 
 

@@ -1,10 +1,7 @@
 from pyspark.sql import DataFrame
 from pyspark.ml.regression import LinearRegression
 from pyspark.ml import Pipeline
-from california_housing_pipeline.features import build_feature_pipeline
-# from california_housing_pipeline.config import (
-#     RANDOM_SEED
-# )
+from california_housing_pipeline.batch.features import build_feature_pipeline
 
 
 def train_model(train_df: DataFrame):
